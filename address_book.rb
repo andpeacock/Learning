@@ -5,7 +5,8 @@ cs = {
   'list' => -> {List()},
   'exit' => -> {Exit()},
   'add' => ->{Add()},
-  'remove' => ->{Remove()}
+  'remove' => ->{Remove()},
+  'write' => ->{Write()}
 }
 
 #This reads file
@@ -38,6 +39,16 @@ def List
   $book.each_index do |entry|
     puts "#{entry}: #{$book[entry].name} -- #{$book[entry].address}"
   end
+end
+
+def Write
+  File.open('book.txt', 'w') do |f|
+    $book.each do |entry|
+      f.puts entry.name
+      f.puts entry.address
+    end
+  end
+	puts "Saved Address Book Successfully!"
 end
 
 def Exit
