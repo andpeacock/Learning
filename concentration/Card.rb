@@ -1,10 +1,22 @@
 class Card
-  attr_reader :value, :face_down
+  attr_accessor :value, :face_down
   def initialize(value)
     @value = value
-    @face_down = true
+    @face_down = false
   end
-  def face_down=(fd)
-    @face_down = fd
+  def turn_over
+    @face_down = !@face_down
+  end
+  
+  def []=(v)
+    @value = v
+  end
+  
+  def to_s
+    if face_down
+      " * "
+    else
+      " #{@value} "
+    end
   end
 end
