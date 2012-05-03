@@ -3,7 +3,8 @@ require_relative 'address_entry'
 $book = Array.new
 cs = {
   'list' => -> {List()},
-  'exit' => -> {Exit()}
+  'exit' => -> {Exit()},
+  'add' => ->{Add()}
 }
 
 #This reads file
@@ -12,6 +13,14 @@ File.open('book.txt') do |f|
   count.times do
     $book << AddressEntry.new(f.gets.delete("\n"), f.gets.delete("\n"))
   end
+end
+
+def Add
+  print "Enter your full name: "
+  name = gets.chop
+  print "Enter your adddress: "
+  addr = gets.chop
+  $book << AddressEntry.new(name, addr)
 end
 
 def List
@@ -25,9 +34,8 @@ def Exit
 end
 
 #MAIN
-b = 1
-begin
+while true
   print "Command?: "
-  com = gets.chop
+  com = gets.chop.downcase
   cs[com].call
-end until b == 0
+end
