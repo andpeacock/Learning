@@ -1,16 +1,17 @@
 require_relative 'address_entry'
-
 $book = Array.new
+cs = Hash.new(0)
 cs = {
   'list' => -> {List()},
   'exit' => -> {Exit()},
   'add' => ->{Add()},
   'remove' => ->{Remove()},
-  'write' => ->{Write()}
+  'write' => ->{Write()},
+  'search' => ->{Search()}
 }
 
 #This reads file
-File.open('book.txt') do |f|
+File.open('book.txt', 'r') do |f|
   count = f.gets.chop.to_i
   count.times do
     $book << AddressEntry.new(f.gets.delete("\n"), f.gets.delete("\n"))
@@ -37,18 +38,25 @@ end
 
 def List
   $book.each_index do |entry|
-    puts "#{entry}: #{$book[entry].name} -- #{$book[entry].address}"
+    puts "#{entry}: #{$book[entry].name}"
   end
 end
 
 def Write
   File.open('book.txt', 'w') do |f|
+    f.puts $book.size
     $book.each do |entry|
       f.puts entry.name
       f.puts entry.address
     end
   end
 	puts "Saved Address Book Successfully!"
+end
+
+def Search
+  print "Please enter index: "
+  ind = gets.chop.to_i
+  puts "#{$book[ind].name}\n#{$book[ind].address}"
 end
 
 def Exit
@@ -59,5 +67,9 @@ end
 while true
   print "Command?: "
   com = gets.chop.downcase
-  cs[com].call
+  if !cs.has_key?(com)
+    puts "Invalid command"
+  else  
+    cs[com].call
+  end
 end
