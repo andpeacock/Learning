@@ -11,8 +11,12 @@ class Board
     for i in (0..3)
 	for j in (0..3)
 	  randnum = rand(8).to_i + 1
-	  if used_nums.has_key?(randnum) and used_nums[randnum] != 2
-	    @board[[i,j]] = Card.new(randnum)
+	  if used_nums.has_key?(randnum)
+	    if used_nums[randnum] != 2
+	      @board[[i,j]] = Card.new(randnum)
+	    else
+	      break
+	    end
 	  else
 	    used_nums[randnum] = used_nums[randnum] + 1
 	  end
