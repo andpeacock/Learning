@@ -4,7 +4,8 @@ $book = Array.new
 cs = {
   'list' => -> {List()},
   'exit' => -> {Exit()},
-  'add' => ->{Add()}
+  'add' => ->{Add()},
+  'remove' => ->{Remove()}
 }
 
 #This reads file
@@ -21,6 +22,16 @@ def Add
   print "Enter your adddress: "
   addr = gets.chop
   $book << AddressEntry.new(name, addr)
+end
+
+def Remove
+  print "Full Name: "
+  name = gets.chop
+  $book.each_index do |entry|
+    if($book[entry].name.eql?(name))
+      $book.delete_at(entry)
+    end
+  end
 end
 
 def List
